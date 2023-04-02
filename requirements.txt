@@ -1,0 +1,4 @@
+aiogram==2.25.1
+Django==4.1
+environs==8.0.0
+redis
