@@ -1,13 +1,12 @@
-from aiogram import types
-from aiogram.dispatcher.filters.builtin import CommandHelp
+from aiogram import Router, types
+from aiogram.filters.command import Command
 
-from tgbot.bot.loader import dp
+router = Router()
 
 
-@dp.message_handler(CommandHelp())
+@router.message(Command('help'))
 async def bot_help(message: types.Message):
     text = ("Buyruqlar: ",
             "/start - Botni ishga tushirish",
             "/help - Yordam")
-    
-    await message.answer("\n".join(text))
+    await message.answer(text="\n".join(text))

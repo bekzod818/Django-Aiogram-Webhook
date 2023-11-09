@@ -1,17 +1,15 @@
-from django.core.management.base import BaseCommand, CommandError
-from tgbot.bot.loader import bot
-from src.settings import WEBHOOK_URL
-from asgiref.sync import async_to_sync
+import requests
+from django.core.management.base import BaseCommand
+from src.settings import WEBHOOK_URL, TELEGRAM_API_BASE_URL
 
 
 class Command(BaseCommand):
     help = 'Setting webhook'
 
     def handle(self, *args, **options):
-        webhook = async_to_sync(bot.get_webhook_info)()
-        if webhook.url != WEBHOOK_URL:
-            async_to_sync(bot.set_webhook)(WEBHOOK_URL, drop_pending_updates=True)
-            self.stdout.write(self.style.SUCCESS('Webhook was successfully setted!'))
+        webhook = requests.get(TELEGRAM_API_BASE_URL + "getWebhookInfo").json()
+        if webhook.get("result", "").get("url", "") != WEBHOOK_URL:
+            requests.post(TELEGRAM_API_BASE_URL + "setWebhook", data={"url": WEBHOOK_URL})
+            self.stdout.write(self.style.SUCCESS('Webhook was successfully set!'))
         else:
-            self.stdout.write(self.style.WARNING('Webhook already setted!'))
-    
+            self.stdout.write(self.style.WARNING('Webhook is already set!'))

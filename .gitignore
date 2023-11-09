@@ -1,0 +1,6 @@
+./venv
+./idea
+
+.env
+db.sqlite3
+dump.rdb

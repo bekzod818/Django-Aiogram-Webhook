@@ -14,9 +14,10 @@ Keyingi ish __Environment variables__ uchun `.env.example` faylidan nusxa olib y
 $ cp .env.example .env
 ```
 
-## Management commands
+> **_Eslatma:_** Agar Postgresql'dan foydalansangiz ma'lumotlar bazasi uchun kerakli konfiguratsiyalarni ham o'rnating.
 
-Boshqaruv buyruqlari:
+## Boshqaruv buyruqlari
+
 - `runbot` telegram botni *long poolling*da ishga tushiradi. (Saytingiz bo'lmasa yoki serverga qo'ymagan bo'lsangiz botni ishlashini tekshirib ko'rish uchun) **Django ishlamaydi!**
 - `setwebhook` botni birinchi marta dastlabki webhook qilib olish uchun
 - `deletewebhook` webhookni uzish uchun
@@ -33,7 +34,7 @@ $ python manage.py setwebhook
 2-ish 
 ```bash
 $ python manage.py runserver
-``` 
+```
 
 ## Eslatma
 
