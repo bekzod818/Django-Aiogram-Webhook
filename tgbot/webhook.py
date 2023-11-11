@@ -1,13 +1,11 @@
 import json
-from aiogram import types, Bot, Dispatcher
-from django.http import HttpRequest, HttpResponse
-from .bot.loader import bot, dp
+from aiogram.types import Update
+from django.http import HttpRequest
+from tgbot.bot.loader import dp, bot
+from tgbot.bot.handlers import setup_routers
 
 
 async def proceed_update(req: HttpRequest):
-    upd = types.Update(**(json.loads(req.body)))
-    Dispatcher.set_current(dp)
-    Bot.set_current(bot)
-    await dp.process_update(upd)
-
-
+    update = Update(**json.loads(req.body))
+    dp.include_router(setup_routers())
+    await dp.feed_webhook_update(bot=bot, update=update)

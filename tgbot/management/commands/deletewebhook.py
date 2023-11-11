@@ -1,16 +1,16 @@
-from django.core.management.base import BaseCommand, CommandError
-from tgbot.bot.loader import bot
-from asgiref.sync import async_to_sync
+import requests
+from django.core.management.base import BaseCommand
+from django.conf import settings
 
 
 class Command(BaseCommand):
     help = 'Deleting webhook'
 
     def handle(self, *args, **options):
-        webhook = async_to_sync(bot.get_webhook_info)()
-        if webhook.url != "":
-            async_to_sync(bot.delete_webhook)()
-            self.stdout.write(self.style.SUCCESS('Webhook was successfully deleted!'))
+        webhook = requests.get(settings.TELEGRAM_API_BASE_URL + "getWebhookInfo").json()
+        if webhook.get("result", "").get("url", "") == "":
+            self.stdout.write(self.style.NOTICE("Webhook have not set yet!"))
         else:
-            self.stdout.write(self.style.WARNING('Webhook no setted!'))
-    
+            url = f"{settings.TELEGRAM_API_BASE_URL}deleteWebhook"
+            requests.post(url)
+            self.stdout.write(self.style.SUCCESS('Webhook was successfully deleted!'))

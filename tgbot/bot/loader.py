@@ -1,8 +1,10 @@
 from src.settings import API_TOKEN
-from aiogram import Bot, Dispatcher, types
-from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from aiogram import Bot, Dispatcher
+from aiogram.enums.parse_mode import ParseMode
+from aiogram.fsm.storage.redis import RedisStorage
+
+from redis.asyncio.client import Redis
 
 
-bot = Bot(token=API_TOKEN, parse_mode=types.ParseMode.HTML)
-storage = RedisStorage2()
-dp = Dispatcher(bot, storage=storage)
+bot = Bot(token=API_TOKEN, parse_mode=ParseMode.HTML)
+dp = Dispatcher(storage=RedisStorage(Redis()))
